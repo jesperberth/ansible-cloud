@@ -9,6 +9,11 @@
     yum:
       name: httpd
       state: latest
+  
+  - name: Install git
+    yum:
+      name: git
+      state: latest
 
   - name: Enable SSH in firewall
     firewalld:
