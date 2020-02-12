@@ -14,7 +14,7 @@
   - debug:
       msg: "{{ webserver1 }}"
   - set_fact:
-      webserver1_pub_ip: "{{ webserver1.primary_public_ip }}"
+      webserver1_pub_ip: "{{ webserver1.instance.primary_public_ip }}"
   
   - name: Get details of Webserver2
     oci_instance_facts:
@@ -25,4 +25,4 @@
   - debug:
       msg: "{{ webserver2 }}"
   - set_fact:
-      webserver2_pub_ip: "{{ webserver2.primary_public_ip }}"
+      webserver2_pub_ip: "{{ webserver2.instance.primary_public_ip }}"
