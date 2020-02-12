@@ -1,0 +1,12 @@
+---
+- name: OCI Webserver Loadbalancer
+  hosts: localhost
+  vars:
+    compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
+
+  tasks:
+
+  - debug:
+      msg: "{{ webserver1 }}"
+  - set_fact:
+      webserver1_id: "{{ webserver1.instance.id }}"
