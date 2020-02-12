@@ -15,6 +15,12 @@
       name: git
       state: latest
 
+  - name: Enable and start httpd
+    systemd:
+      name: httpd
+      state: started
+      enabled: yes
+
   - name: Enable SSH in firewall
     firewalld:
       zone: public
