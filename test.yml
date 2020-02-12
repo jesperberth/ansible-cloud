@@ -5,12 +5,24 @@
     compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
 
   tasks:
-  - name: Get details of Instances
+  - name: Get details of Webserver1
     oci_instance_facts:
       compartment_id: "{{ compartmentid }}"
       lifecycle_state: "RUNNING"
-    register: instances
+      display_name: "webserver1"
+    register: webserver1
   - debug:
-      msg: "{{ instances }}"
-#  - set_fact:
-#      webserver1_id: "{{ webserver1.instance.id }}"
+      msg: "{{ webserver1 }}"
+  - set_fact:
+      webserver1_pub_ip: "{{ webserver1.primary_public_ip }}"
+  
+  - name: Get details of Webserver2
+    oci_instance_facts:
+      compartment_id: "{{ compartmentid }}"
+      lifecycle_state: "RUNNING"
+      display_name: "webserver2"
+    register: webserver2
+  - debug:
+      msg: "{{ webserver2 }}"
+  - set_fact:
+      webserver2_pub_ip: "{{ webserver2.primary_public_ip }}"
