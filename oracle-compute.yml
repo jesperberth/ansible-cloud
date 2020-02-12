@@ -1,6 +1,7 @@
 ---
 - name: OCI Webserver Compute Configuration
   hosts: all
+  become: yes
   vars:
     
   tasks:
