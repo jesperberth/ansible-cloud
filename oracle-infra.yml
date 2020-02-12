@@ -1,0 +1,120 @@
+---
+- name: OCI Webserver Network
+  hosts: localhost
+  vars:
+    compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
+    vcn_cidr_block: "10.0.0.0/16"
+    vcn_name: "WebsiteNetwork"
+    vcn_dns_label: "website"
+    subnet_dns_label: "webserver"
+    webserver_subnet_name: "webserver"
+    webserver_subnet_cidr: "10.0.0.0/24"
+  
+  tasks:
+  - name: Create a VCN
+    oci_vcn:
+      compartment_id: "{{ compartmentid }}"
+      display_name: "{{ vcn_name }}"
+      cidr_block: "{{ vcn_cidr_block }}"
+      dns_label: "{{ vcn_dns_label }}"
+    register: vcnresult
+  - debug:
+      msg: "{{ vcnresult }}"
+  - set_fact:
+      vcn_id: "{{ vcnresult.vcn.id }}"
+      default_route_table_id: "{{ vcnresult.vcn.default_route_table_id }}"
+      default_security_list_id: "{{ vcnresult.vcn.default_security_list_id }}"
+
+  - name : Create a Internet Gateway in VCN
+    oci_internet_gateway:
+      compartment_id: "{{ compartmentid }}"
+      vcn_id: "{{ vcnresult.vcn.id }}"
+      name: "web_inetgw"
+      enabled: 'yes'
+      state: 'present'
+    register: inetgwresult
+  - debug:
+      msg: "{{ inetgwresult }}"
+  - set_fact:
+      inet_gw_id: "{{ inetgwresult.internet_gateway.id }}"
+
+  - name: Create a Route Table in VCN
+    oci_route_table:
+      rt_id: "{{ default_route_table_id }}"
+      display_name: "webserver default route table"
+      route_rules:
+          - destination: "0.0.0.0/0"
+            destination_type: "CIDR_BLOCK"
+            network_entity_id: "{{ inet_gw_id }}"
+      state: 'present'
+
+  - name: Update security list with http
+    oci_security_list:
+      security_list_id: "{{ default_security_list_id }}"
+      ingress_security_rules:
+          - source: '0.0.0.0/0'
+            is_stateless: False
+            protocol: '6'
+            tcp_options:
+                destination_port_range:
+                   min: 80
+                   max: 80
+      purge_security_rules: no             
+      state: "present"
+
+  - name: Create a webserver subnet in VCN
+    oci_subnet:
+      display_name: "{{ webserver_subnet_name }}"
+      cidr_block: "{{ webserver_subnet_cidr }}"
+      compartment_id: "{{ compartmentid }}"
+      vcn_id: "{{ vcn_id }}"
+      dns_label: "{{ subnet_dns_label }}"
+    register: subnetresult
+  - debug:
+      msg: "{{ subnetresult }}"
+  - set_fact:
+      subnet_id: "{{ subnetresult.subnet.id }}"
+  
+  - name: Create Webserver1
+    oci_instance:
+      name: webserver1
+      availability_domain: "WXSQ:EU-FRANKFURT-1-AD-1"
+      fault_domain: "FAULT-DOMAIN-2"
+      compartment_id: "{{ compartmentid }}"
+      shape: "VM.Standard.E2.1"
+      freeform_tags:
+         solution: "website"
+      source_details:
+         source_type: image
+         image_id: "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaxkllzh6u3bk6pthu6pks7bpuu6ir72cdofaf5zv2g7lxqg3zno7a"
+      vnic:
+         hostname_label: "webserver1"
+         assign_public_ip: true
+         subnet_id: "{{ subnet_id }}"
+    register: webserver1
+  - debug:
+      msg: "{{ webserver1 }}"
+  - set_fact:
+      webserver1_id: "{{ webserver1.instance.id }}"
+  
+  - name: Create Webserver2
+    oci_instance:
+      name: webserver2
+      availability_domain: "WXSQ:EU-FRANKFURT-1-AD-2"
+      fault_domain: "FAULT-DOMAIN-2"
+      compartment_id: "{{ compartmentid }}"
+      shape: "VM.Standard.E2.1"
+      freeform_tags:
+         solution: "website"
+      source_details:
+         source_type: image
+         image_id: "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaxkllzh6u3bk6pthu6pks7bpuu6ir72cdofaf5zv2g7lxqg3zno7a"
+      vnic:
+         hostname_label: "webserver2"
+         assign_public_ip: true
+         subnet_id: "{{ subnet_id }}"
+    register: webserver2
+  - debug:
+      msg: "{{ webserver2 }}"
+  - set_fact:
+      webserver1_id: "{{ webserver2.instance.id }}"
