@@ -9,3 +9,25 @@
     yum:
       name: httpd
       state: latest
+
+  - name: Enable SSH in firewall
+    firewalld:
+      zone: public
+      service: ssh
+      permanent: yes
+      state: enabled
+    notify: reload firewall
+
+  - name: Enable http in firewall
+    firewalld:
+      zone: public
+      service: http
+      permanent: yes
+      state: enabled
+    notify: reload firewall
+
+  handlers:
+  - name: reload firewall
+    systemd:
+      name: firewalld
+      state: reloaded
