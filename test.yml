@@ -8,7 +8,7 @@
   - name: Get details of Instances
     oci_instance_facts:
       compartment_id: "{{ compartmentid }}"
-      lifecycle_state: "running"
+      lifecycle_state: "RUNNING"
     register: instances
   - debug:
       msg: "{{ instances }}"
