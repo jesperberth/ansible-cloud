@@ -40,8 +40,6 @@
         backends:
             - ip_address: "{{ webserver1_public_ip }}"
               port: "80"
-            - ip_address: "{{ webserver2_public_ip }}"
-              port: "80"
         health_checker:
             interval_in_millis: "30000"
             port: "80"
