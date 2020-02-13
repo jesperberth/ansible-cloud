@@ -50,7 +50,7 @@
 #            return_code: "200"
 #            url_path: "/healthcheck"
 #        policy: "LEAST_CONNECTIONS"
-      shape_name: "10Mbps"
+      shape_name: "100Mbps"
 #      listeners:
 #        listerner1:
 #          default_backend_set_name: "backend1"
