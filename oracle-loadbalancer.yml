@@ -61,3 +61,4 @@
       subnet_ids:
           - "{{ stat_subnet_id }}"
       state: 'present'
+    register: loadbalencer
