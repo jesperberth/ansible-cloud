@@ -52,6 +52,20 @@
             return_code: "200"
             url_path: "/healthcheck"
         policy: "LEAST_CONNECTIONS"
+       backend2:
+        backends:
+            - ip_address: "{{ webserver2_public_ip }}"
+              port: "80"
+        health_checker:
+            interval_in_millis: "30000"
+            port: "80"
+            protocol: "HTTP"
+            response_body_regex: "^(500|40[1348])$"
+            retries: "3"
+            timeout_in_millis: "6000"
+            return_code: "200"
+            url_path: "/healthcheck"
+        policy: "LEAST_CONNECTIONS"
       shape_name: "10Mbps"
       listeners:
         listerner1:
