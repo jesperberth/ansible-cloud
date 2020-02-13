@@ -95,3 +95,7 @@
       connection_configuration:
           idle_timeout: 1200
       state: 'present'
+
+  - name: Show load balancer
+    debug:
+      msg: "{{ loadbalancer }}"
