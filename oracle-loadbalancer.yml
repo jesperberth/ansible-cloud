@@ -84,3 +84,14 @@
       offline: False
       weight: 3
       state: 'present'
+
+  - name: Create Listener for loadbalancer
+    oci_load_balancer_listener:
+      load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
+      name: "website_lb_listener"
+      default_backend_set_name: "website_lb_backend_set"
+      protocol: "HTTP"
+      port: 80
+      connection_configuration:
+          idle_timeout: 1200
+      state: 'present'
