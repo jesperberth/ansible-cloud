@@ -60,3 +60,27 @@
         cookie_name: "ansible_backend_set_cookie"
         disable_fallback: True
       state: 'present'
+
+  - name: Create Load Balancer Backend for webserver1
+    oci_load_balancer_backend:
+      load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
+      backend_set_name: "backend1"
+      ip_address: "10.50.121.59"
+      port: 80
+      backup: False
+      drain: False
+      offline: False
+      weight: 3
+      state: 'present'
+  
+  - name: Create Load Balancer Backend for webserver2
+    oci_load_balancer_backend:
+      load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
+      backend_set_name: "backend2"
+      ip_address: "10.50.121.69"
+      port: 80
+      backup: False
+      drain: False
+      offline: False
+      weight: 3
+      state: 'present'
