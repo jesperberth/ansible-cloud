@@ -1,5 +1,5 @@
 ---
-- name: OCI Webserver Compute Configuration
+- name: Webserver Compute Configuration
   hosts: all
   become: yes
   vars:

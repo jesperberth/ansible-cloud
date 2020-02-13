@@ -3,13 +3,7 @@
   hosts: localhost
   vars:
     compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
-    vcn_cidr_block: "10.0.0.0/16"
-    vcn_name: "WebsiteNetwork"
-    vcn_dns_label: "website"
-    subnet_dns_label: "webserver"
-    webserver_subnet_name: "webserver"
-    webserver_subnet_cidr: "10.0.0.0/24"
-  
+
   tasks:
   - name: Create Load Balancer
     oci_load_balancer:
