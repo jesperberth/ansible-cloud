@@ -5,31 +5,31 @@
     compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
 
   tasks:
-  - name: Get webserver1 facts
-    oci_instance_facts:
-      instance_id: "{{ webserver1_id }}"
-    register: instance_webserver1
+#  - name: Get webserver1 facts
+#    oci_instance_facts:
+#      instance_id: "{{ webserver1_id }}"
+#    register: instance_webserver1
 
-  - name: Set Fact webserver1_public_ip fact
-    set_fact:
-      webserver1_public_ip: "{{ item.primary_public_ip }}"
-    loop: "{{ instance_webserver1.instances }}"
+#  - name: Set Fact webserver1_public_ip fact
+#    set_fact:
+#      webserver1_public_ip: "{{ item.primary_public_ip }}"
+#    loop: "{{ instance_webserver1.instances }}"
 
-  - debug:
-      msg: "{{ webserver1_public_ip }}"
+#  - debug:
+#      msg: "{{ webserver1_public_ip }}"
 
-  - name: Get webserver2 facts
-    oci_instance_facts:
-      instance_id: "{{ webserver2_id }}"
-    register: instance_webserver2
+#  - name: Get webserver2 facts
+#    oci_instance_facts:
+#      instance_id: "{{ webserver2_id }}"
+#    register: instance_webserver2
 
-  - name: Set Fact webserver2_public_ip fact
-    set_fact:
-      webserver2_public_ip: "{{ item.primary_public_ip }}"
-    loop: "{{ instance_webserver2.instances }}"
+#  - name: Set Fact webserver2_public_ip fact
+#    set_fact:
+#      webserver2_public_ip: "{{ item.primary_public_ip }}"
+#    loop: "{{ instance_webserver2.instances }}"
 
-  - debug:
-      msg: "{{ webserver2_public_ip }}"
+#  - debug:
+#      msg: "{{ webserver2_public_ip }}"
 
   - name: Create Load Balancer
     oci_load_balancer:
