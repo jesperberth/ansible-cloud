@@ -64,7 +64,7 @@
   - name: Create Load Balancer Backend for webserver1
     oci_load_balancer_backend:
       load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
-      backend_set_name: "backend1"
+      backend_set_name: "website_lb_backend_set"
       ip_address: "10.50.121.59"
       port: 80
       backup: False
@@ -76,7 +76,7 @@
   - name: Create Load Balancer Backend for webserver2
     oci_load_balancer_backend:
       load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
-      backend_set_name: "backend2"
+      backend_set_name: "website_lb_backend_set"
       ip_address: "10.50.121.69"
       port: 80
       backup: False
