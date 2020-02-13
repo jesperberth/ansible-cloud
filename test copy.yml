@@ -13,7 +13,7 @@
   - debug:
       msg: "{{ webserver1 }}"
   - set_fact:
-      webserver1_pub_ip: "{{ webserver1.instances.primary_public_ip }}"
+      webserver1_pub_ip: "{{ webserver1.instance.primary_public_ip }}"
   - debug:
       msg: "{{ webserver1_pub_ip }}"
   
