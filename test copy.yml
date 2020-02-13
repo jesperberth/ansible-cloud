@@ -7,7 +7,7 @@
   tasks:
   - name: Get details of Webserver1
     oci_instance_facts:
-      compartment_id: "{{ compartmentid }}"
+      #compartment_id: "{{ compartmentid }}"
       instance_id: "ocid1.instance.oc1.eu-frankfurt-1.antheljsjq645facxw6ahfxolgxhsf6ckeoeetqnwcy4a4f4vlba26kvt7kq"
     register: webserver1
   - debug:
