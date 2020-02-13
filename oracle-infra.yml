@@ -95,6 +95,15 @@
   - debug:
       msg: "{{ webserver1 }}"
 
+  - name: Get Vnic for webserver1
+    oci_vnic_attachment_facts:
+      compartment_id: "{{ compartmentid }}"
+      instance_id: "{{ webserver1.instance.id }}"
+    register: vnic_webserver1
+  
+  - debug:
+      msg: "{{ vnic_webserver1 }}"
+
   - name: Set Stats webserver1_id
     set_stats:
       data:
