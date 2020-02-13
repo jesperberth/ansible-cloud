@@ -5,20 +5,28 @@
     compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
 
   tasks:
-  - name: Get Vnic for webserver1
-    oci_vnic_attachment_facts:
-      compartment_id: "{{ compartmentid }}"
-      instance_id: "ocid1.instance.oc1.eu-frankfurt-1.antheljsjq645facwli5n6gvpvrh5thakpzsmczpd75avn3lrj55nnquibfq"
-    register: vnic_webserver1
-  
-  - debug:
-      msg: "{{ vnic_webserver1 }}"
+  - name: Get webserver1 facts
+    oci_instance_facts:
+      instance_id: "{{ webserver1_id }}"
+    register: instance_webserver1
 
-  - name: Get Public IP webserver1
-    oci_vnic_facts:
-      id: "ocid1.vnic.oc1.eu-frankfurt-1.abtheljsa75fb3xillmisgqt4rlp4j3sjadki3tdu7qcicohu2odtrldfyqa"
-    register: vnic_facts_webserver1
-  
-  - debug:
-      msg: "{{ vnic_facts_webserver1 }}"
+  - name: Set Fact webserver1_public_ip fact
+    set_fact:
+      webserver1_public_ip: "{{ item.primary_public_ip }}"
+    loop: "{{ instance_webserver1.instances }}"
 
+  - debug:
+      msg: "{{ webserver1_public_ip }}"
+
+  - name: Get webserver2 facts
+    oci_instance_facts:
+      instance_id: "{{ webserver2_id }}"
+    register: instance_webserver2
+
+  - name: Set Fact webserver2_public_ip fact
+    set_fact:
+      webserver1_public_ip: "{{ item.primary_public_ip }}"
+    loop: "{{ instance_webserver2.instances }}"
+
+  - debug:
+      msg: "{{ webserver2_public_ip }}"
