@@ -8,23 +8,19 @@
   - name: Get details of Webserver1
     oci_instance_facts:
       compartment_id: "{{ compartmentid }}"
-      lifecycle_state: "RUNNING"
-      display_name: "webserver1"
       instance_id: "{{ webserver1_id }}"
     register: webserver1
   - debug:
       msg: "{{ webserver1 }}"
-  - set_fact:
-      webserver1_pub_ip: "{{ webserver1.instance.primary_public_ip }}"
+#  - set_fact:
+#      webserver1_pub_ip: "{{ webserver1.instance.primary_public_ip }}"
   
   - name: Get details of Webserver2
     oci_instance_facts:
       compartment_id: "{{ compartmentid }}"
-      lifecycle_state: "RUNNING"
-      display_name: "webserver2"
       instance_id: "{{ webserver2_id }}"
     register: webserver2
   - debug:
       msg: "{{ webserver2 }}"
-  - set_fact:
-      webserver2_pub_ip: "{{ webserver2.instance.primary_public_ip }}"
+#  - set_fact:
+#      webserver2_pub_ip: "{{ webserver2.instance.primary_public_ip }}"
