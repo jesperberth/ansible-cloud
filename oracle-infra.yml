@@ -72,9 +72,15 @@
     register: subnetresult
 #  - debug:
 #      msg: "{{ subnetresult }}"
-  - set_fact:
+  - name: Set fact subnet_id  
+    set_fact:
       subnet_id: "{{ subnetresult.subnet.id }}"
-  
+
+  - name: Set Stats subnet_id
+    set_stats:
+      data:
+       stat_subnet_id: "{{ subnetresult.subnet.id }}"
+
   - name: Create Webserver1
     oci_instance:
       name: webserver1
