@@ -106,7 +106,7 @@
 
   - name: Get Public IP webserver1
     oci_vnic_facts:
-      id: "{{ vnic_webserver1.vnic_attachments.id }}"
+      id: "{{ vnic_webserver1.vnic_attachments.vnic_id }}"
     register: vnic_facts_webserver1
   
   - debug:
