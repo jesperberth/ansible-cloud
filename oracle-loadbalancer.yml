@@ -98,4 +98,4 @@
 
   - name: Show load balancer
     debug:
-      msg: "{{ loadbalancer }}"
+      msg: "{{ loadbalancer.ip_addresses.ip_address }}"
