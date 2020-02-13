@@ -35,43 +35,29 @@
     oci_load_balancer:
       compartment_id: "{{ compartmentid }}"
       name: "website_lb"
-      backend_sets:
-       backend1:
-        backends:
-            - ip_address: "{{ webserver1_public_ip }}"
-              port: "80"
-        health_checker:
-            interval_in_millis: "30000"
-            port: "80"
-            protocol: "HTTP"
-            response_body_regex: "^(500|40[1348])$"
-            retries: "3"
-            timeout_in_millis: "6000"
-            return_code: "200"
-            url_path: "/healthcheck"
-        policy: "LEAST_CONNECTIONS"
-       backend2:
-        backends:
-            - ip_address: "{{ webserver2_public_ip }}"
-              port: "80"
-        health_checker:
-            interval_in_millis: "30000"
-            port: "80"
-            protocol: "HTTP"
-            response_body_regex: "^(500|40[1348])$"
-            retries: "3"
-            timeout_in_millis: "6000"
-            return_code: "200"
-            url_path: "/healthcheck"
-        policy: "LEAST_CONNECTIONS"
+#      backend_sets:
+#       backend1:
+#        backends:
+#            - ip_address: "{{ webserver1_public_ip }}"
+#              port: "80"
+#        health_checker:
+#            interval_in_millis: "30000"
+#            port: "80"
+#            protocol: "HTTP"
+#            response_body_regex: "^(500|40[1348])$"
+#            retries: "3"
+#            timeout_in_millis: "6000"
+#            return_code: "200"
+#            url_path: "/healthcheck"
+#        policy: "LEAST_CONNECTIONS"
       shape_name: "10Mbps"
-      listeners:
-        listerner1:
-          default_backend_set_name: "backend1"
-          port: "80"
-          protocol: "HTTP"
-          hostname_names: ['hostname_001']
-          path_route_set_name: 'test_path_route_set'
+#      listeners:
+#        listerner1:
+#          default_backend_set_name: "backend1"
+#          port: "80"
+#          protocol: "HTTP"
+#          hostname_names: ['hostname_001']
+#          path_route_set_name: 'test_path_route_set'
       subnet_ids:
           - "{{ stat_subnet_id }}"
       state: 'present'
