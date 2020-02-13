@@ -10,6 +10,7 @@
       compartment_id: "{{ compartmentid }}"
       lifecycle_state: "RUNNING"
       display_name: "webserver1"
+      instance_id: "{{ webserver1_id }}"
     register: webserver1
   - debug:
       msg: "{{ webserver1 }}"
@@ -21,6 +22,7 @@
       compartment_id: "{{ compartmentid }}"
       lifecycle_state: "RUNNING"
       display_name: "webserver2"
+      instance_id: "{{ webserver2_id }}"
     register: webserver2
   - debug:
       msg: "{{ webserver2 }}"
