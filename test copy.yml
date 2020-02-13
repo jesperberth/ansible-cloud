@@ -16,7 +16,7 @@
 
   - name: Get Public IP webserver1
     oci_vnic_facts:
-      id: "{{ vnic_webserver1.vnic_id }}"
+      id: "ocid1.vnic.oc1.eu-frankfurt-1.abtheljsa75fb3xillmisgqt4rlp4j3sjadki3tdu7qcicohu2odtrldfyqa"
     register: vnic_facts_webserver1
   
   - debug:
