@@ -5,15 +5,20 @@
     compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
 
   tasks:
-  - name: Get details of Webserver1
-    oci_instance_facts:
-      #compartment_id: "{{ compartmentid }}"
-      instance_id: "ocid1.instance.oc1.eu-frankfurt-1.antheljsjq645facxw6ahfxolgxhsf6ckeoeetqnwcy4a4f4vlba26kvt7kq"
-    register: webserver1
-  - debug:
-      msg: "{{ webserver1 }}"
-  - set_fact:
-      webserver1_pub_ip: "{{ webserver1.instance.primary_public_ip }}"
-  - debug:
-      msg: "{{ webserver1_pub_ip }}"
+  - name: Get Vnic for webserver1
+    oci_vnic_attachment_facts:
+      compartment_id: "{{ compartmentid }}"
+      instance_id: "ocid1.instance.oc1.eu-frankfurt-1.antheljsjq645facwli5n6gvpvrh5thakpzsmczpd75avn3lrj55nnquibfq"
+    register: vnic_webserver1
   
+  - debug:
+      msg: "{{ vnic_webserver1 }}"
+
+  - name: Get Public IP webserver1
+    oci_vnic_facts:
+      id: "{{ vnic_webserver1.vnic_id }}"
+    register: vnic_facts_webserver1
+  
+  - debug:
+      msg: "{{ vnic_facts_webserver1 }}"
+
