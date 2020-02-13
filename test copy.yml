@@ -25,7 +25,7 @@
 
   - name: Set Fact webserver2_public_ip fact
     set_fact:
-      webserver1_public_ip: "{{ item.primary_public_ip }}"
+      webserver2_public_ip: "{{ item.primary_public_ip }}"
     loop: "{{ instance_webserver2.instances }}"
 
   - debug:
