@@ -15,5 +15,5 @@
   - set_fact:
       webserver1_pub_ip: "{{ webserver1.instances.primary_public_ip }}"
   - debug:
-    msg: "{{ webserver1_pub_ip }}"
+      msg: "{{ webserver1_pub_ip }}"
   
