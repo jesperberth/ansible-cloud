@@ -104,6 +104,14 @@
   - debug:
       msg: "{{ vnic_webserver1 }}"
 
+  - name: Get Public IP webserver1
+    oci_vnic_facts:
+      id: "{{ vnic_webserver1.vnic_attachments.id }}"
+    register: vnic_facts_webserver1
+  
+  - debug:
+      msg: "{{ vnic_facts_webserver1 }}"
+
   - name: Set Stats webserver1_id
     set_stats:
       data:
