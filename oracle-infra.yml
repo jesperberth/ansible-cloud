@@ -94,9 +94,11 @@
     register: webserver1
   - debug:
       msg: "{{ webserver1 }}"
+
   - name: Set Stats webserver1_id
     set_stats:
-      webserver1_id: "{{ webserver1.instance.id }}"
+      data:
+        webserver1_id: "{{ webserver1.instance.id }}"
   
   - name: Create Webserver2
     oci_instance:
@@ -120,4 +122,5 @@
 
   - name: Set Stats webserver2_id
     set_stats:
-      webserver2_id: "{{ webserver2.instance.id }}"
+      data:
+        webserver2_id: "{{ webserver2.instance.id }}"
