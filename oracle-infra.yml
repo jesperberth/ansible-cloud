@@ -18,9 +18,9 @@
       cidr_block: "{{ vcn_cidr_block }}"
       dns_label: "{{ vcn_dns_label }}"
     register: vcnresult
-#  - debug:
-#      msg: "{{ vcnresult }}"
-  - set_fact:
+
+  - name: Set fact VCN
+    set_fact:
       vcn_id: "{{ vcnresult.vcn.id }}"
       default_route_table_id: "{{ vcnresult.vcn.default_route_table_id }}"
       default_security_list_id: "{{ vcnresult.vcn.default_security_list_id }}"
@@ -33,9 +33,9 @@
       enabled: 'yes'
       state: 'present'
     register: inetgwresult
-#  - debug:
-#      msg: "{{ inetgwresult }}"
-  - set_fact:
+
+  - name: Set fact internet gateway id
+    set_fact:
       inet_gw_id: "{{ inetgwresult.internet_gateway.id }}"
 
   - name: Create a Route Table in VCN
@@ -70,8 +70,7 @@
       vcn_id: "{{ vcn_id }}"
       dns_label: "{{ subnet_dns_label }}"
     register: subnetresult
-#  - debug:
-#      msg: "{{ subnetresult }}"
+
   - name: Set fact subnet_id  
     set_fact:
       subnet_id: "{{ subnetresult.subnet.id }}"
@@ -99,26 +98,6 @@
          subnet_id: "{{ subnet_id }}"
     register: webserver1
 
-#  - debug:
-#      msg: "{{ webserver1 }}"
-
-#  - name: Get Vnic for webserver1
-#    oci_vnic_attachment_facts:
-#      compartment_id: "{{ compartmentid }}"
-#      instance_id: "{{ webserver1.instance.id }}"
-#    register: vnic_webserver1
-  
-#  - debug:
-#      msg: "{{ vnic_webserver1 }}"
-
-#  - name: Get Public IP webserver1
-#    oci_vnic_facts:
-#      id: "{{ vnic_webserver1.vnic_attachments.vnic_id }}"
-#    register: vnic_facts_webserver1
-  
-#  - debug:
-#      msg: "{{ vnic_facts_webserver1 }}"
-
   - name: Set Stats webserver1_id
     set_stats:
       data:
@@ -141,8 +120,6 @@
          assign_public_ip: true
          subnet_id: "{{ subnet_id }}"
     register: webserver2
-#  - debug:
-#      msg: "{{ webserver2 }}"
 
   - name: Set Stats webserver2_id
     set_stats:

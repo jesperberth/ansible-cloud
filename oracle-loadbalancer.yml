@@ -3,31 +3,31 @@
   hosts: localhost
   vars:
     compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
-    stat_subnet_id: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaaf2mtalxrznokdtr5pwtr27umfly4uernnkqhdzljatwegifqxupq"
+    #stat_subnet_id: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaaf2mtalxrznokdtr5pwtr27umfly4uernnkqhdzljatwegifqxupq"
 
   tasks:
-#  - name: Get webserver1 facts
-#    oci_instance_facts:
-#      instance_id: "{{ webserver1_id }}"
-#    register: instance_webserver1
+  - name: Get webserver1 facts
+    oci_instance_facts:
+      instance_id: "{{ webserver1_id }}"
+    register: instance_webserver1
 
-#  - name: Set Fact webserver1_public_ip fact
-#    set_fact:
-#      webserver1_public_ip: "{{ item.primary_public_ip }}"
-#    loop: "{{ instance_webserver1.instances }}"
+  - name: Set Fact webserver1_public_ip fact
+    set_fact:
+      webserver1_public_ip: "{{ item.primary_public_ip }}"
+    loop: "{{ instance_webserver1.instances }}"
 
 #  - debug:
 #      msg: "{{ webserver1_public_ip }}"
 
-#  - name: Get webserver2 facts
-#    oci_instance_facts:
-#      instance_id: "{{ webserver2_id }}"
-#    register: instance_webserver2
+  - name: Get webserver2 facts
+    oci_instance_facts:
+      instance_id: "{{ webserver2_id }}"
+    register: instance_webserver2
 
-#  - name: Set Fact webserver2_public_ip fact
-#    set_fact:
-#      webserver2_public_ip: "{{ item.primary_public_ip }}"
-#    loop: "{{ instance_webserver2.instances }}"
+  - name: Set Fact webserver2_public_ip fact
+    set_fact:
+      webserver2_public_ip: "{{ item.primary_public_ip }}"
+    loop: "{{ instance_webserver2.instances }}"
 
 #  - debug:
 #      msg: "{{ webserver2_public_ip }}"
@@ -96,6 +96,7 @@
           idle_timeout: 1200
       state: 'present'
 
-  - name: Show load balancer
-    debug:
-      msg: "{{ loadbalancer.ip_addresses.ip_address }}"
+  - name: Set Stats loadbalancer_id
+    set_stats:
+      data:
+       loadbalancer_id: "{{ loadbalancer.load_balancer.id }}"
