@@ -58,7 +58,7 @@
     oci_load_balancer_backend:
       load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
       backend_set_name: "website_lb_backend_set"
-      ip_address: "10.50.121.59"
+      ip_address: "{{ webserver1_public_ip }}"
       port: 80
       backup: False
       drain: False
@@ -70,7 +70,7 @@
     oci_load_balancer_backend:
       load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
       backend_set_name: "website_lb_backend_set"
-      ip_address: "10.50.121.69"
+      ip_address:  "{{ webserver2_public_ip }}"
       port: 80
       backup: False
       drain: False
