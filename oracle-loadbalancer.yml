@@ -3,8 +3,7 @@
   hosts: localhost
   vars:
     compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
-    #stat_subnet_id: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaaf2mtalxrznokdtr5pwtr27umfly4uernnkqhdzljatwegifqxupq"
-
+    
   tasks:
   - name: Get webserver1 facts
     oci_instance_facts:
@@ -16,9 +15,6 @@
       webserver1_public_ip: "{{ item.primary_public_ip }}"
     loop: "{{ instance_webserver1.instances }}"
 
-#  - debug:
-#      msg: "{{ webserver1_public_ip }}"
-
   - name: Get webserver2 facts
     oci_instance_facts:
       instance_id: "{{ webserver2_id }}"
@@ -28,9 +24,6 @@
     set_fact:
       webserver2_public_ip: "{{ item.primary_public_ip }}"
     loop: "{{ instance_webserver2.instances }}"
-
-#  - debug:
-#      msg: "{{ webserver2_public_ip }}"
 
   - name: Create Load Balancer
     oci_load_balancer:
