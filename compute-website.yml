@@ -1,6 +1,6 @@
 ---
 - name: Webserver Compute Website
-  hosts: all
+  hosts: tag_solution=website
   become: yes
   vars:
     
