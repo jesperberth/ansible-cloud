@@ -1,0 +1,10 @@
+---
+- name: Webserver Compute Website
+  hosts: all
+  become: yes
+  vars:
+    
+  tasks:
+  - name: Wait for connection
+    git:
+      
