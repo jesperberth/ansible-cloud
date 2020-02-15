@@ -10,9 +10,9 @@
       instance_id: "{{ webserver1_id }}"
     register: instance_webserver1
 
-  - name: Set Fact webserver1_public_ip fact
+  - name: Set Fact webserver1_private_ip fact
     set_fact:
-      webserver1_public_ip: "{{ item.primary_public_ip }}"
+      webserver1_private_ip: "{{ item.primary_private_ip }}"
     loop: "{{ instance_webserver1.instances }}"
 
   - name: Get webserver2 facts
@@ -20,9 +20,9 @@
       instance_id: "{{ webserver2_id }}"
     register: instance_webserver2
 
-  - name: Set Fact webserver2_public_ip fact
+  - name: Set Fact webserver2_private_ip fact
     set_fact:
-      webserver2_public_ip: "{{ item.primary_public_ip }}"
+      webserver2_private_ip: "{{ item.primary_private_ip }}"
     loop: "{{ instance_webserver2.instances }}"
 
   - name: Create Load Balancer
@@ -58,7 +58,7 @@
     oci_load_balancer_backend:
       load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
       backend_set_name: "website_lb_backend_set"
-      ip_address: "{{ webserver1_public_ip }}"
+      ip_address: "{{ webserver1_private_ip }}"
       port: 80
       backup: False
       drain: False
@@ -70,7 +70,7 @@
     oci_load_balancer_backend:
       load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
       backend_set_name: "website_lb_backend_set"
-      ip_address:  "{{ webserver2_public_ip }}"
+      ip_address:  "{{ wrivatever2_public_ip }}"
       port: 80
       backup: False
       drain: False
