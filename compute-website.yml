@@ -7,4 +7,5 @@
   tasks:
   - name: Wait for connection
     git:
-      
+      repo: "{{ gitrepo }}"
+      dest: "/var/www/html"
