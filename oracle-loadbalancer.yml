@@ -40,18 +40,14 @@
       name: "website_lb_backend_set"
       load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
       health_checker:
-            interval_in_millis: 30000
+            interval_in_millis: 10000
             port: 80
             protocol: "HTTP"
-            response_body_regex: "^(500|40[1348])$"
             retries: 3
-            timeout_in_millis: 6000
+            timeout_in_millis: 3000
             return_code: 200
             url_path: "/healthcheck"
-      policy: "LEAST_CONNECTIONS"
-      session_persistence_configuration:
-        cookie_name: "ansible_backend_set_cookie"
-        disable_fallback: True
+      policy: "WEIGHTED_ROUND_ROBIN"
       state: 'present'
 
   - name: Create Load Balancer Backend for webserver1
@@ -63,7 +59,7 @@
       backup: False
       drain: False
       offline: False
-      weight: 3
+      weight: 1
       state: 'present'
   
   - name: Create Load Balancer Backend for webserver2
@@ -75,7 +71,7 @@
       backup: False
       drain: False
       offline: False
-      weight: 3
+      weight: 1
       state: 'present'
 
   - name: Create Listener for loadbalancer
