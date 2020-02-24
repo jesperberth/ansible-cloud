@@ -28,7 +28,7 @@
   - name: Create Load Balancer
     oci_load_balancer:
       compartment_id: "{{ compartmentid }}"
-      name: "website_lb"
+      name: "{{ hostname }}-website_lb"
       shape_name: "100Mbps"
       subnet_ids:
           - "{{ stat_subnet_id }}"

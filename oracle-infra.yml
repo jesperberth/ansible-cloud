@@ -1,5 +1,5 @@
 ---
-- name: OCI Webserver Network
+- name: OCI Webserver Infrastructure
   hosts: localhost
   vars:
     compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
