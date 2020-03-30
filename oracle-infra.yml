@@ -91,7 +91,7 @@
          solution: "website"
       source_details:
          source_type: image
-         image_id: "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaxkllzh6u3bk6pthu6pks7bpuu6ir72cdofaf5zv2g7lxqg3zno7a"
+         image_id: "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaxt6ttu7x4gepd2j4e2wc6hoe2fo2xigfke3kohw2uffgsqltgs2q"
       vnic:
          hostname_label: "{{ hostname }}-webserver1"
          assign_public_ip: true
@@ -114,7 +114,7 @@
          solution: "website"
       source_details:
          source_type: image
-         image_id: "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaxkllzh6u3bk6pthu6pks7bpuu6ir72cdofaf5zv2g7lxqg3zno7a"
+         image_id: "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaxt6ttu7x4gepd2j4e2wc6hoe2fo2xigfke3kohw2uffgsqltgs2q"
       vnic:
          hostname_label: "{{ hostname }}-webserver"
          assign_public_ip: true
