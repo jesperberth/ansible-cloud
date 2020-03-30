@@ -83,7 +83,7 @@
   - name: Create Webserver1
     oci_instance:
       name: "{{ hostname }}-webserver1"
-      availability_domain: "WXSQ:EU-FRANKFURT-1-AD-1"
+      availability_domain: "yFak:EU-FRANKFURT-1-AD-1"
       fault_domain: "FAULT-DOMAIN-2"
       compartment_id: "{{ compartmentid }}"
       shape: "VM.Standard.E2.1"
@@ -106,7 +106,7 @@
   - name: Create Webserver2
     oci_instance:
       name: "{{ hostname }}-webserver2"
-      availability_domain: "WXSQ:EU-FRANKFURT-1-AD-2"
+      availability_domain: "yFak:EU-FRANKFURT-1-AD-2"
       fault_domain: "FAULT-DOMAIN-2"
       compartment_id: "{{ compartmentid }}"
       shape: "VM.Standard.E2.1"
