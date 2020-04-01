@@ -1,16 +1,16 @@
 ---
 - name: Webserver Compute Configuration
-  hosts: tag_solution=website
+  hosts: tag_Ansible_webserver
   become: yes
+  user: ec2-user
   vars:
-    
+    ansible_ssh_private_key_file: ~/.ssh/ansible-key.pem
   tasks:
-  - name: Wait for connection
-    wait_for_connection:
-      delay: 120
-      sleep: 10
-      timeout: 600
-  
+  - name: Install firewalld
+    yum:
+      name: firewalld
+      state: latest
+
   - name: Install httpd
     yum:
       name: httpd
