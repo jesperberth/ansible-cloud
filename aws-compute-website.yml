@@ -7,7 +7,7 @@
     ansible_ssh_private_key_file: ~/.ssh/ansible-key.pem
     gitrepo: https://github.com/jesperberth/tomato-monkey.git
   tasks:
-  - name: Wait for connection
+  - name: Download Website from Github
     git:
       repo: "{{ gitrepo }}"
       dest: "/var/www/html"

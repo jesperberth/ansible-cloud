@@ -26,8 +26,13 @@
       region: "{{ region }}"
       filters:
          "tag:Ansible": webserver
+         instance-state-name: [ "running" ]
     register: ec2
-  
+
+  - name: debug
+    debug:
+      msg: "{{ ec2 }}"
+
   - name: Create ELB Target Group
     elb_target_group:
       name: webservers

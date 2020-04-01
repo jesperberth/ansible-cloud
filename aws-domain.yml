@@ -3,16 +3,16 @@
   hosts: localhost
   vars:
     domain: aws.arrowdemo.dk
-    hostname: jesper2
+    hostname: jesper81
     region: "eu-west-1"
   
   tasks:
   - name: Get ELB DNS info
     elb_application_lb_info:
-      names: "myapplb"
+      names: "webserverelb"
       region: "{{ region }}"
     register: elb
-   
+
   - name: Create Route53 record
     route53:
       state: present
