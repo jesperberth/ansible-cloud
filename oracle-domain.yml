@@ -2,12 +2,15 @@
 - name: OCI Zone Record
   hosts: localhost
   vars:
-    compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
+    compartmentid: "ocid1.compartment.oc1..aaaaaaaapajmuwmqujw2ztssdciccvmjtcyjnaj2ftl62rsohhydoq7qlxza"
+    hostname: "tomat"
+    tld: "oci.arrowdemo.dk"
 
   tasks:
   - name: Load Balancer Facts
     oci_load_balancer_facts:
-        load_balancer_id: "{{ loadbalancer_id }}"
+      compartment_id: "{{ compartmentid }}"
+      display_name: "{{ hostname }}-website_lb"
     register: lb
   
   - name: Set Fact lb_ip fact

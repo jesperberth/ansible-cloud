@@ -2,13 +2,15 @@
 - name: OCI Webserver Infrastructure
   hosts: localhost
   vars:
-    compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
+    compartmentid: "ocid1.compartment.oc1..aaaaaaaapajmuwmqujw2ztssdciccvmjtcyjnaj2ftl62rsohhydoq7qlxza"
     vcn_cidr_block: "10.0.0.0/16"
     vcn_name: "WebsiteNetwork"
     vcn_dns_label: "website"
     subnet_dns_label: "webserver"
     webserver_subnet_name: "webserver"
     webserver_subnet_cidr: "10.0.0.0/24"
+    imagename: "oci_image_with_key"
+    hostname: tomat
   
   tasks:
   - name: Create a VCN
@@ -75,53 +77,55 @@
     set_fact:
       subnet_id: "{{ subnetresult.subnet.id }}"
 
-  - name: Set Stats subnet_id
-    set_stats:
-      data:
-       stat_subnet_id: "{{ subnetresult.subnet.id }}"
+  - name: List images
+    oci_image_facts:
+      compartment_id: "{{ compartmentid }}"
+      display_name: "{{ imagename }}"
+    register: image
 
+  - name: Get Availability Domain
+    oci_ad_facts:
+      compartment_id: "{{ compartmentid }}"
+    register: adfact
+  
   - name: Create Webserver1
     oci_instance:
       name: "{{ hostname }}-webserver1"
-      availability_domain: "yFak:EU-FRANKFURT-1-AD-1"
+      availability_domain: "{{ adfact.availability_domains[0].name }}"
       fault_domain: "FAULT-DOMAIN-2"
       compartment_id: "{{ compartmentid }}"
       shape: "VM.Standard.E2.1"
       freeform_tags:
-         solution: "website"
+         ansible: "website"
       source_details:
          source_type: image
-         image_id: "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaxt6ttu7x4gepd2j4e2wc6hoe2fo2xigfke3kohw2uffgsqltgs2q"
+         image_id: "{{ image.images[0].id }}"
       vnic:
          hostname_label: "{{ hostname }}-webserver1"
          assign_public_ip: true
          subnet_id: "{{ subnet_id }}"
     register: webserver1
 
-  - name: Set Stats webserver1_id
-    set_stats:
-      data:
-        webserver1_id: "{{ webserver1.instance.id }}"
-  
   - name: Create Webserver2
     oci_instance:
       name: "{{ hostname }}-webserver2"
-      availability_domain: "yFak:EU-FRANKFURT-1-AD-2"
+      availability_domain: "{{ adfact.availability_domains[1].name }}"
       fault_domain: "FAULT-DOMAIN-2"
       compartment_id: "{{ compartmentid }}"
       shape: "VM.Standard.E2.1"
       freeform_tags:
-         solution: "website"
+         ansible: "website"
       source_details:
          source_type: image
-         image_id: "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaxt6ttu7x4gepd2j4e2wc6hoe2fo2xigfke3kohw2uffgsqltgs2q"
+         image_id: "{{ image.images[0].id }}"
       vnic:
          hostname_label: "{{ hostname }}-webserver"
          assign_public_ip: true
          subnet_id: "{{ subnet_id }}"
     register: webserver2
 
-  - name: Set Stats webserver2_id
-    set_stats:
-      data:
-        webserver2_id: "{{ webserver2.instance.id }}"
+  - name: Add webserver1 to ssh known_hosts
+    shell: "ssh-keyscan -t ecdsa {{ webserver1.instance.primary_public_ip }}  >> /home/jesbe/.ssh/known_hosts"
+
+  - name: Add webserver2 to ssh known_hosts
+    shell: "ssh-keyscan -t ecdsa {{ webserver2.instance.primary_public_ip }}  >> /home/jesbe/.ssh/known_hosts"

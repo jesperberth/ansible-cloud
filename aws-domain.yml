@@ -3,7 +3,7 @@
   hosts: localhost
   vars:
     domain: aws.arrowdemo.dk
-    hostname: jesper81
+    hostname: tomat
     region: "eu-west-1"
   
   tasks:

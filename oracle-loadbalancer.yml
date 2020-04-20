@@ -2,12 +2,22 @@
 - name: OCI Webserver Loadbalancer
   hosts: localhost
   vars:
-    compartmentid: "ocid1.tenancy.oc1..aaaaaaaawkmnjfryshdufax2ar4h4x7ijbnvkcy3kgwun2pcbq7vj6k3xfbq"
+    compartmentid: "ocid1.compartment.oc1..aaaaaaaapajmuwmqujw2ztssdciccvmjtcyjnaj2ftl62rsohhydoq7qlxza"
+    vcn_cidr_block: "10.0.0.0/16"
+    vcn_name: "WebsiteNetwork"
+    vcn_dns_label: "website"
+    subnet_dns_label: "webserver"
+    webserver_subnet_name: "webserver"
+    webserver_subnet_cidr: "10.0.0.0/24"
+    imagename: "oci_image_with_key"
+    hostname: tomat
     
   tasks:
   - name: Get webserver1 facts
     oci_instance_facts:
-      instance_id: "{{ webserver1_id }}"
+      compartment_id: "{{ compartmentid }}"
+      display_name: "{{ hostname }}-webserver1"
+      lifecycle_state: "RUNNING"
     register: instance_webserver1
 
   - name: Set Fact webserver1_private_ip fact
@@ -17,7 +27,9 @@
 
   - name: Get webserver2 facts
     oci_instance_facts:
-      instance_id: "{{ webserver2_id }}"
+      compartment_id: "{{ compartmentid }}"
+      display_name: "{{ hostname }}-webserver2"
+      lifecycle_state: "RUNNING"
     register: instance_webserver2
 
   - name: Set Fact webserver2_private_ip fact
@@ -25,13 +37,34 @@
       webserver2_private_ip: "{{ item.primary_private_ip }}"
     loop: "{{ instance_webserver2.instances }}"
 
+  - name: Get VCN
+    oci_vcn_facts:
+      compartment_id: "{{ compartmentid }}"
+      display_name: "{{ hostname }}_{{ vcn_name }}"
+    register: vcn
+  
+  - name: debug
+    debug:
+      msg: "{{ vcn.vcns[0].id }}"
+
+  - name: Get Webserver subnet
+    oci_subnet_facts:
+      compartment_id: "{{ compartmentid }}"
+      display_name: "{{ webserver_subnet_name }}"
+      vcn_id: "{{ vcn.vcns[0].id }}"
+    register: subnet
+
+  - name: debug
+    debug:
+      msg: "{{ subnet.subnets[0].id }}"
+
   - name: Create Load Balancer
     oci_load_balancer:
       compartment_id: "{{ compartmentid }}"
       name: "{{ hostname }}-website_lb"
       shape_name: "100Mbps"
       subnet_ids:
-          - "{{ stat_subnet_id }}"
+          - "{{ subnet.subnets[0].id }}"
       state: 'present'
     register: loadbalancer
 
@@ -40,10 +73,10 @@
       name: "website_lb_backend_set"
       load_balancer_id: "{{ loadbalancer.load_balancer.id }}"
       health_checker:
-            interval_in_millis: 10000
+            interval_in_millis: 5000
             port: 80
             protocol: "HTTP"
-            retries: 3
+            retries: 2
             timeout_in_millis: 3000
             return_code: 200
             url_path: "/healthcheck"
