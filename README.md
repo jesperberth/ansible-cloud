@@ -32,7 +32,7 @@ pip install ansible
 
 ansible --version
 
-pip install oci 
+pip install oci
 
 git clone https://github.com/oracle/oci-ansible-modules.git
 
